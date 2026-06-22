@@ -32,23 +32,23 @@ public class CategoriesController {
         return categoryService.getAllCategories();
     }
 
-    @GetMapping("/{categoryId}")
-    public Category getById(@PathVariable int categoryId) {
-        Category category = categoryService.getById(categoryId);
+    @GetMapping("/{id}")
+    public Category getById(@PathVariable int id) {
+        Category category = categoryService.getById(id);
         if (category == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + categoryId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + id);
         }
         return category;
     }
 
 
-    @GetMapping("/{categoryId}/products")
-    public List<Product> getProductsById(@PathVariable int categoryId) {
-        Category category = categoryService.getById(categoryId);
+    @GetMapping("/{id}/products")
+    public List<Product> getProductsById(@PathVariable int id) {
+        Category category = categoryService.getById(id);
         if (category == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + categoryId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id " + id);
         }
-        return productService.listByCategoryId(categoryId);
+        return productService.listByCategoryId(id);
     }
 
 
@@ -59,21 +59,24 @@ public class CategoriesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
-       Category saved = categoryService.update(id, category);
-       if (saved == null){
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id" + id);
-       }
+        Category saved = categoryService.update(id, category);
+        if (saved == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id " + id);
+        }
         return saved;
     }
 
 
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
-        // delete the category by id and return status 204 No Content
-        return null;
+        if (categoryService.getById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id " + id);
+        }
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
