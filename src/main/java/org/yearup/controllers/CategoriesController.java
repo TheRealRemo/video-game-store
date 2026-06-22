@@ -33,18 +33,20 @@ public class CategoriesController {
     @GetMapping("/{categoryId}")
     public Category getById(@PathVariable int categoryId) {
         Category category = categoryService.getById(categoryId);
-        if (category == null){
+        if (category == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + categoryId);
         }
         return category;
     }
 
-    // the url to return all products in category 1 would look like this
-    // https://localhost:8080/categories/1/products
-    @GetMapping("{categoryId}/products")
+
+    @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
-        // get a list of product by categoryId
-        return null;
+        Category category = categoryService.getById(categoryId);
+        if (category == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + categoryId);
+        }
+        return productService.listByCategoryId(categoryId);
     }
 
     // add annotation to call this method for a POST action
