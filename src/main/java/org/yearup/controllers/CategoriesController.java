@@ -11,29 +11,25 @@ import org.yearup.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping(" http://localhost:8080/categories")
+@RequestMapping("api/categories")
 @CrossOrigin
-public class CategoriesController
-{
+public class CategoriesController {
     private CategoryService categoryService;
     private ProductService productService;
 
-@Autowired
+    @Autowired
     public CategoriesController(CategoryService categoryService, ProductService productService) {
         this.categoryService = categoryService;
         this.productService = productService;
     }
 
-    // add the appropriate annotation for a get action
-    public List<Category> getAll()
-    {
-        // find and return all categories
-        return null;
+    @GetMapping()
+    public List<Category> getAll() {
+        return categoryService.getAllCategories();
     }
 
     // add the appropriate annotation for a get action
-    public Category getById(@PathVariable int id)
-    {
+    public Category getById(@PathVariable int id) {
         // get the category by id
         return null;
     }
@@ -41,24 +37,21 @@ public class CategoriesController
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping("{categoryId}/products")
-    public List<Product> getProductsById(@PathVariable int categoryId)
-    {
+    public List<Product> getProductsById(@PathVariable int categoryId) {
         // get a list of product by categoryId
         return null;
     }
 
     // add annotation to call this method for a POST action
     // add annotation to ensure that only an ADMIN can call this function
-    public ResponseEntity<Category> addCategory(@RequestBody Category category)
-    {
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         // insert the category and return it with status 201 Created
         return null;
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
-    public Category updateCategory(@PathVariable int id, @RequestBody Category category)
-    {
+    public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
         // update the category by id and return the updated category (200 OK)
         return null;
     }
@@ -66,8 +59,7 @@ public class CategoriesController
 
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
-    public ResponseEntity<Void> deleteCategory(@PathVariable int id)
-    {
+    public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         // delete the category by id and return status 204 No Content
         return null;
     }
