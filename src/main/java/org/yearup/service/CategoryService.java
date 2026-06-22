@@ -30,7 +30,8 @@ public class CategoryService
 
     public Category create(Category category)
     {
-        // create a new category
+       category.setCategoryId(null);
+       category.set
         return null;
     }
 
