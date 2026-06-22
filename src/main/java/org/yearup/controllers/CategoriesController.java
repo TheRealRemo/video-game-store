@@ -1,8 +1,10 @@
 package org.yearup.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Category;
@@ -13,7 +15,7 @@ import org.yearup.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/categories")
+@RequestMapping("/categories")
 @CrossOrigin
 public class CategoriesController {
     private CategoryService categoryService;
@@ -49,11 +51,12 @@ public class CategoriesController {
         return productService.listByCategoryId(categoryId);
     }
 
-    // add annotation to call this method for a POST action
-    // add annotation to ensure that only an ADMIN can call this function
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        // insert the category and return it with status 201 Created
-        return null;
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
+        Category created = categoryService.create(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
