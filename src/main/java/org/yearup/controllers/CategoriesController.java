@@ -59,11 +59,14 @@ public class CategoriesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
-        // update the category by id and return the updated category (200 OK)
-        return null;
+       Category saved = categoryService.update(id, category);
+       if (saved == null){
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id" + id);
+       }
+        return saved;
     }
 
 

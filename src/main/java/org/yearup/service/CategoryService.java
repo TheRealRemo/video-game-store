@@ -28,8 +28,11 @@ public class CategoryService {
     }
 
     public Category update(int categoryId, Category category) {
-        // update category and return the updated category
-        return null;
+        Category newCategory = getById(categoryId);
+        if(newCategory == null) return null;
+        newCategory.setName(category.getName());
+        newCategory.setDescription(category.getDescription());
+        return categoryRepository.save(newCategory);
     }
 
     public void delete(int categoryId) {
