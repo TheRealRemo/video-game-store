@@ -36,6 +36,7 @@ public class CategoriesController {
     public Category getById(@PathVariable int id) {
         Category category = categoryService.getById(id);
         if (category == null) {
+            // Return 404 when the requested category does not exist.
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id" + id);
         }
         return category;
@@ -44,6 +45,7 @@ public class CategoriesController {
 
     @GetMapping("/{id}/products")
     public List<Product> getProductsById(@PathVariable int id) {
+        // Verify that the category exists before retrieving its products.
         Category category = categoryService.getById(id);
         if (category == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id " + id);
@@ -55,6 +57,8 @@ public class CategoriesController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
+        // Only ADMIN users can create categories.
+        // Return HTTP 201 Created after successful insertion.
         Category created = categoryService.create(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -62,6 +66,7 @@ public class CategoriesController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
+        // Update the existing category and return 404 if it does not exist.
         Category saved = categoryService.update(id, category);
         if (saved == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id " + id);
@@ -73,10 +78,12 @@ public class CategoriesController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
+        // Verify the category exists before deleting.
         if (categoryService.getById(id) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No category found with id " + id);
         }
         categoryService.delete(id);
+        // Return 204 because the resource was successfully deleted.
         return ResponseEntity.noContent().build();
     }
 }
