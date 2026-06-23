@@ -1,6 +1,8 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.models.ShoppingCart;
@@ -15,8 +17,7 @@ import java.util.List;
 @RequestMapping("/cart")
 @CrossOrigin
 @PreAuthorize("isAuthenticated()")
-public class ShoppingCartController
-{
+public class ShoppingCartController {
     // a shopping cart controller depends on the service layer
     private ShoppingCartService shoppingCartService;
     private UserService userService;
@@ -29,8 +30,7 @@ public class ShoppingCartController
 
     // each method in this controller requires a Principal object as a parameter
     @GetMapping()
-    public ShoppingCart getCart(Principal principal)
-    {
+    public ShoppingCart getCart(Principal principal) {
         // get the currently logged in username
         String userName = principal.getName();
         // find database user by username
@@ -41,14 +41,23 @@ public class ShoppingCartController
         return shoppingCartService.getByUserId(userId);
     }
 
+
     @PostMapping("/products/{productId}")
-    public List<ShoppingCart> addProductToCart(@PathVariable int productId, Principal principal){
+    public ResponseEntity<ShoppingCart> addProductToCart(
+            @PathVariable int productId,
+            Principal principal) {
         // get the currently logged in username
         String userName = principal.getName();
+
         // find database user by username
         User user = userService.getByUserName(userName);
         int userId = user.getId();
 
+        // add product and retrieve updated cart
+        ShoppingCart cart = shoppingCartService.addProduct(userId, productId);
+
+        // return updated cart with 201 Created
+        return ResponseEntity.status(HttpStatus.CREATED).body(cart);
     }
     // https://localhost:8080/cart/products/15  (15 is the productId to be added)
     // return the updated cart with status 201 Created
