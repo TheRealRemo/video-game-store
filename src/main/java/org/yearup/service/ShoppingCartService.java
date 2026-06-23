@@ -43,6 +43,27 @@ public class ShoppingCartService {
         return shoppingCart;
     }
 
+    public ShoppingCart addProduct(int userId, int productId) {
 
+        CartItem existingItem = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+// Check whether this product already exists in the user's cart
+        if (existingItem == null) {
+            // Product is not in the cart yet, create a new row
+            CartItem cartItem = new CartItem();
+            cartItem.setUserId(userId);
+            cartItem.setProductId(productId);
+            cartItem.setQuantity(1);
+
+            shoppingCartRepository.save(cartItem);
+        } else {
+            // Product already exists, increase the quantity
+            existingItem.setQuantity(existingItem.getQuantity() + 1);
+
+            shoppingCartRepository.save(existingItem);
+        }
+
+        // Return the updated cart
+        return getByUserId(userId);
+    }
     // add additional methods here
 }
