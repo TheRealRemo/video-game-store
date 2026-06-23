@@ -10,18 +10,20 @@ import org.yearup.models.Product;
 import org.yearup.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class})
 class ProductServiceTest {
-@Mock
-private ProductRepository productRepository;
+    @Mock
+    private ProductRepository productRepository;
 
 
-@InjectMocks
-private ProductService productService;
+    @InjectMocks
+    private ProductService productService;
 
     @Test
     void search_NoFilters_ReturnsAllProducts() {
@@ -48,4 +50,28 @@ private ProductService productService;
         assertEquals(product2, found.get(1));
     }
 
+    @Test
+    void update_ProductStockChanged_UpdatesNewStockValue() {
+        // Arrange
+
+        // Existing product in the "database"
+        Product existingProduct = new Product(1, null, 1, 1, null, null, 5, false, null);
+
+        // Product containing the updated information
+        Product updatedProduct = new Product(1, null, 1, 1, null, null, 10, false, null);
+
+        // Mock repository lookup
+        when(productRepository.findById(1)).thenReturn(Optional.of(existingProduct));
+
+        // Mock save operation
+        when(productRepository.save(existingProduct)).thenReturn(existingProduct);
+
+        // Act
+        Product result = productService.update(1, updatedProduct);
+
+        // Assert
+
+        // Verify that the stock was updated from 5 to 10
+        assertEquals(10, result.getStock());
+    }
 }
