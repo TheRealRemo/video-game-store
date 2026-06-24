@@ -27,6 +27,10 @@ public class ProductService
                        .filter(p -> maxPrice == null || p.getPrice() <= maxPrice)
                        .filter(p -> subCategory == null || subCategory.equalsIgnoreCase(p.getSubCategory()))
                        .toList();
+
+        // Bug Fix: Removed featured-product filtering.
+        // Search results should include all matching products,
+        // not only products marked as featured.
     }
 
     public List<Product> listByCategoryId(int categoryId)
@@ -53,6 +57,8 @@ public class ProductService
         existing.setCategoryId(product.getCategoryId());
         existing.setDescription(product.getDescription());
         existing.setSubCategory(product.getSubCategory());
+        // Bug Fix: Update the stock value so inventory changes
+        // are persisted when a product is edited.
         existing.setStock(product.getStock());
         existing.setFeatured(product.isFeatured());
         existing.setImageUrl(product.getImageUrl());
