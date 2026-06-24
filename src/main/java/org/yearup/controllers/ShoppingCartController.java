@@ -78,6 +78,21 @@ public class ShoppingCartController {
         // Return the updated cart
         return shoppingCartService.updateCart(userId, productId, item.getQuantity());
     }
+
+
+    @DeleteMapping
+    public ShoppingCart clearShoppingCart(Principal principal) {
+        // Get the currently logged-in username
+        String userName = principal.getName();
+
+        // Find the user and retrieve their ID
+        User user = userService.getByUserName(userName);
+        int userId = user.getId();
+
+        // Clear the cart and return the updated (empty) cart
+        return shoppingCartService.clearCart(userId);
+    }
+
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart  - return the (now empty) cart so the front end can refresh it (200 OK)
 
