@@ -94,5 +94,8 @@ public class ShoppingCartService {
 
         return getByUserId(userId);
     }
-    // add additional methods here
+   public ShoppingCart clearCart(){
+
+
+   }
 }
