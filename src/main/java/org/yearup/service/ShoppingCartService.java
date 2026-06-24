@@ -20,26 +20,43 @@ public class ShoppingCartService {
         this.productService = productService;
     }
 
+    /// The method retrieves the user's cart rows, looks up each associated product,
+    /// combines the data into ShoppingCartItems,
+    ///  and returns a ShoppingCart that the frontend can display.
     public ShoppingCart getByUserId(int userId) {
-// Create an empty cart
+        // Create an empty ShoppingCart object that will be populated
+        // with the user's products and quantities.
         ShoppingCart shoppingCart = new ShoppingCart();
 
-
-// Load all cart rows for the user
+        // Retrieve all cart rows belonging to the specified user.
+        // Each CartItem only contains database information such as:
+        // userId, productId, and quantity.
         List<CartItem> cartItems = shoppingCartRepository.findByUserId(userId);
 
-// Build the response by looking up each product
+        // Convert each database CartItem into a ShoppingCartItem
+        // that contains the full Product details needed by the frontend.
         for (CartItem cartItem : cartItems) {
+            // Look up the complete Product using the productId stored
+            // in the cart row. This provides the name, price, description,
+            // image URL, and other product information.
             Product product = productService.getById(cartItem.getProductId());
 
+            // Create a ShoppingCartItem that combines the Product
+            // information with the quantity stored in the cart.
             ShoppingCartItem item = new ShoppingCartItem();
+
+            // Attach the full Product object to the cart item.
             item.setProduct(product);
+
+            // Copy the quantity from the database cart row.
             item.setQuantity(cartItem.getQuantity());
 
+            // Add the completed ShoppingCartItem to the ShoppingCart.
             shoppingCart.add(item);
         }
 
-
+        // Return the fully populated ShoppingCart object to the controller,
+        // which will send it back to the frontend as the API response.
         return shoppingCart;
     }
 
@@ -63,6 +80,18 @@ public class ShoppingCartService {
         }
 
         // Return the updated cart
+        return getByUserId(userId);
+    }
+
+    public ShoppingCart updateCart(int userId, int productId, int quantity) {
+        CartItem existingItem = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+
+        if (existingItem != null) {
+            existingItem.setQuantity(quantity);
+
+            shoppingCartRepository.save(existingItem);
+        }
+
         return getByUserId(userId);
     }
     // add additional methods here
