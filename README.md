@@ -89,7 +89,7 @@ Interacts with front end integrated with backend.
 
 ![GIF1](https://i.imgur.com/ezfT6E6.gif)
 ![GIF2](https://i.imgur.com/0KU6zoy.gif)
-![GIF3](https://i.imgur.com/gx4O1dg.gif)
+![GIF3](https://i.imgur.com/noePaot.gif)
 
 ---
 
