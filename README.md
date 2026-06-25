@@ -94,8 +94,6 @@ Interacts with front end integrated with backend.
 ---
 
 ## Future Work
-
-- User Profile Creation
 - Improved search and sorting options
 - Checkout and payment processing
 - Further Testing
