@@ -88,7 +88,8 @@ Interacts with front end integrated with backend.
 ## Demo
 
 ![GIF1](https://i.imgur.com/ezfT6E6.gif)
-![GIF2](https://i.imgur.com/ezfT6E6.gif)
+![GIF2](https://i.imgur.com/0KU6zoy.gif)
+![GIF3](https://i.imgur.com/gx4O1dg.gif)
 
 ---
 
@@ -103,8 +104,11 @@ Interacts with front end integrated with backend.
 
 ## Resources
 
-[Student Handbook 9: Building REST APIs with Spring
+- [Student Handbook 9: Building REST APIs with Spring
 Boot](https://yearup.brightspace.com/d2l/le/enhancedSequenceViewer/11441?url=https%3A%2F%2Fa8aef0e2-4090-467b-bc7e-c872d64ba733.sequences.api.brightspace.com%2F11441%2Factivity%2F551039%3FfilterOnDatesAndDepth%3D1)
+
+
+- [GPT Conversation @Transactional](https://chatgpt.com/s/t_6a3d8718b1188191ad31dd5216d6357b)
 
 
 ---
