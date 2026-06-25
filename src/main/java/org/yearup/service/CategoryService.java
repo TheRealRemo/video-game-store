@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class CategoryService {
+    //provided field to build constructor to access repository
     private final CategoryRepository categoryRepository;
 
     // Constructor injection allows Spring to provide the repository dependency.

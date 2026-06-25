@@ -9,7 +9,8 @@ import org.yearup.models.Product;
 import org.yearup.service.ProductService;
 
 import java.util.List;
-
+// Marks this class as a REST controller.
+// Spring automatically detects it and avails the methods as API endpoints.
 @RestController
 @RequestMapping("products")
 @CrossOrigin

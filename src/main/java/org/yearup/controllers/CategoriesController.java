@@ -13,15 +13,17 @@ import org.yearup.service.CategoryService;
 import org.yearup.service.ProductService;
 
 import java.util.List;
-
+// Marks this class as a REST controller.
+// Spring automatically detects it and avails the methods as API endpoints.
 @RestController
+// Sets the base URL for every endpoint in this controller.
 @RequestMapping("/categories")
 @CrossOrigin
 public class CategoriesController {
     private CategoryService categoryService;
     private ProductService productService;
 
-    @Autowired
+
     public CategoriesController(CategoryService categoryService, ProductService productService) {
         this.categoryService = categoryService;
         this.productService = productService;

@@ -96,10 +96,16 @@ public class ShoppingCartService {
         return getByUserId(userId);
     }
 
+    // This method is marked @Transactional because the custom
+   // deleteByUserId() operation requires an active database
+  // transaction in order to execute successfully.
     @Transactional
     public ShoppingCart clearCart(int userId) {
+
+        // Delete all shopping cart items that belong to the specified user.
         shoppingCartRepository.deleteByUserId(userId);
 
+        // Return the user's updated (now empty) shopping cart.
         return getByUserId(userId);
     }
 }

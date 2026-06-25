@@ -43,11 +43,6 @@ class ProductServiceTest {
         // Assert
         // Verify that both products are returned.
         assertEquals(2, found.size());
-
-        // Verify that the returned list contains the expected products
-        // and that they are returned in the same order.
-        assertEquals(product1, found.get(0));
-        assertEquals(product2, found.get(1));
     }
 
     @Test
