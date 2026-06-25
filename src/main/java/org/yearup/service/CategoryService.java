@@ -34,7 +34,6 @@ public class CategoryService {
     }
 
     public Category update(int categoryId, Category category) {
-
         // Retrieve the existing category before applying updates.
         Category newCategory = getById(categoryId);
 

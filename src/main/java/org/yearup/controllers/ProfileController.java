@@ -35,4 +35,19 @@ public class ProfileController {
         // Return the user's profile
         return profileService.getByUserId(userId);
     }
+
+    @PutMapping
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, Principal principal) {
+        // Get the currently logged-in username.
+        String userName = principal.getName();
+
+        // Find the user and retrieve their ID.
+        User user = userService.getByUserName(userName);
+        int userId = user.getId();
+
+        // Update the user's profile.
+        Profile updated = profileService.update(userId, profile);
+
+        return ResponseEntity.ok(updated);
+    }
 }
