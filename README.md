@@ -51,7 +51,7 @@ Interacts with front end integrated with backend.
 ## Prerequisites
 
 - IntelliJ IDEA
-- Java 21 (or the version required by your project)
+- Java 17 Amazon Corretto  
 - MySQL Server
 - Maven
 
